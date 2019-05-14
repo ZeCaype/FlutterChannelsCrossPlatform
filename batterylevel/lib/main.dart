@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Flutter Android/iOS channels'),
     );
   }
 }
@@ -26,9 +26,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  static const platform = const MethodChannel('samples.flutter.io/battery');
-  // Get battery level.
+  static const platform = const MethodChannel('myFirstChannel');
   String _batteryLevel = 'Unknown battery level.';
+  String _deviceType = 'Unknown device type.';
 
   Future<void> _getBatteryLevel() async {
     String batteryLevel;
@@ -44,6 +44,14 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Future<void> _getDeviceType() async {
+    final String result = await platform.invokeMethod('getDeviceType');
+
+    setState(() {
+      _deviceType = result;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -55,7 +63,12 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('Get Battery Level'),
               onPressed: _getBatteryLevel,
             ),
+            FlatButton(
+              child: Text('Get Device Type'),
+              onPressed: _getDeviceType,
+            ),
             Text(_batteryLevel),
+            Text(_deviceType),
           ],
         ),
       ),
