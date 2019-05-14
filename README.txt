@@ -1,0 +1,1 @@
+This simple project tries to show how to write custom platform-specific code.
